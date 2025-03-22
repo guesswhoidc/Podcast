@@ -1,0 +1,61 @@
+CREATE TABLE users (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  display_name VARCHAR(255) NOT NULL,
+  passkey VARCHAR(255) NOT NULL,
+  email VARCHAR(255) UNIQUE NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE podcasts (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(255) NOT NULL,
+  thumbnail_url VARCHAR(255),
+  slug VARCHAR(255) UNIQUE NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  last_indexed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FULLTEXT (name, slug)
+);
+
+CREATE TABLE episodes (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  slug VARCHAR(255) UNIQUE NOT NULL,
+  title VARCHAR(255) NOT NULL,
+  description TEXT,
+  thumbnail_url VARCHAR(255),
+  episode_url VARCHAR(255) NOT NULL,
+  length INT,
+  last_indexed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  podcast_id INT,
+  FOREIGN KEY (podcast_id) REFERENCES Podcasts(id)
+);
+
+CREATE TABLE episode_listens (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  user_id INT,
+  episode_id INT,
+  time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES Users(id),
+  FOREIGN KEY (episode_id) REFERENCES Episodes(id)
+);
+CREATE TABLE playlists (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  user_id INT,
+  name VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES Users(id)
+);
+CREATE TABLE playlist_episodes (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  playlist_id INT,
+  episode_id INT,
+  FOREIGN KEY (playlist_id) REFERENCES Playlists(id),
+  FOREIGN KEY (episode_id) REFERENCES Episodes(id)
+);
+CREATE TABLE subscriptions (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  user_id INT,
+  podcast_id INT,
+  FOREIGN KEY (user_id) REFERENCES Users(id),
+  FOREIGN KEY (podcast_id) REFERENCES Podcasts(id)
+);
