@@ -1,5 +1,5 @@
-import {Sequelize} from 'sequelize';
-export default async function () {
+const {Sequelize} = require('sequelize');
+module.exports = async function () {
   let {
     DB_NAME, 
     DB_USERNAME, 

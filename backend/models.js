@@ -1,4 +1,4 @@
-import { DataTypes, Model } from 'sequelize';
+const { DataTypes, Model } = require('sequelize');
 
 class Users extends Model {}
 class Podcasts extends Model {}
@@ -8,7 +8,7 @@ class Playlists extends Model {}
 class PlaylistEpisodes extends Model {}
 class Subscriptions extends Model {}
 
-export default (sequelize) => {
+module.exports = function(sequelize) {
   Users.init({
     id: {
       type: DataTypes.INTEGER,
@@ -290,5 +290,4 @@ export default (sequelize) => {
     allModels,
     syncAll,
   };
-};
-
+}
