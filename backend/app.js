@@ -1,11 +1,16 @@
 const express = require('express');
+const podcastsRoutes = require('./routes/podcasts')
 
-const app = express();
+module.exports = function(models) { 
+  const app = express();
 
-app.use(express.json());
+  app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("Hullo \n");
-});
+  podcastsRoutes({models, app});
 
-module.exports = app
+  app.get("/", (req, res) => {
+    res.send("Hullo \n");
+  });
+
+  return app;
+}

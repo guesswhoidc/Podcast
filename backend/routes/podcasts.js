@@ -26,4 +26,6 @@ module.exports = function({models, app}) {
 
     console.log(podcastResponse);
   });
+
+  return app;
 }

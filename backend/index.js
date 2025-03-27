@@ -1,12 +1,12 @@
-import dotenv from 'dotenv';
-import app from './app.js';
-import DB from './db.js';
+const App = require('./app');
+const DB = require('./db');
+const Models = require('./models');
 
-dotenv.config();
 const PORT = process.env.PORT || 3052;
 
-DB().then(() => {
-  app.listen(PORT, () => {
+
+DB().then((db) => {
+  App(Models(db)).listen(PORT, () => {
     console.log(`server running at ${PORT}`);
   });
 });

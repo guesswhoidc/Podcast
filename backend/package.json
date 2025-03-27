@@ -7,14 +7,14 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "test": "jest",
+    "start": "dotenvx run -- node index.js",
+    "test": "dotenvx run -f tests.env -- jest",
     "db:init": "node scripts/init_db.js",
     "lint": "eslint"
   },
   "dependencies": {
+    "@dotenvx/dotenvx": "^1.39.0",
     "axios": "^1.8.4",
-    "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "fast-xml-parser": "^5.0.9",
     "mysql2": "^3.14.0",
