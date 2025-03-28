@@ -1,6 +1,9 @@
 const axios = require('axios');
+const {XMLParser} = require('fast-xml-parser');
 
 const UNPROCESSABLE_ENTITY = 422;
+
+const parser = new XMLParser();
 
 module.exports = function({models, app}) {
   const {Podcasts} = models;
@@ -11,20 +14,22 @@ module.exports = function({models, app}) {
 
   app.post('/podcasts', async (req, res) => {
     const {url} = req.body;
-    let podcastResponse;
+    console.log(`trying to index url ${url}`)
+    let feed;
     try {
-      podcastResponse = await axios.get(url);
+      const {data} = await axios.get(url);
+      feed = parser.parse(data);
     } catch (error) {
       console.error(`unable to index url ${url}`, error);
-      res.statusCode(UNPROCESSABLE_ENTITY).json({
+      res.status(UNPROCESSABLE_ENTITY).json({
         error: { 
           message: "There was a error while fetching the podcast data",
         }
       });
       return;
     }
-
-    console.log(podcastResponse);
+    console.log(feed);
+    res.json(feed);
   });
 
   return app;

@@ -7,7 +7,6 @@ module.exports = async function () {
     DB_HOST,
   } = process.env;
     
-  console.log('DB_ENVIRONMENT variable isn\'t test, connecting to regular DB');
   console.assert(!!DB_NAME, "Make sure that the DB_NAME environment variable is set");
   console.assert(!!DB_USERNAME, "Make sure that the DB_USERNAME environment variable is set");
   console.assert(!!DB_PASSWORD, "Make sure that the DB_PASSWORD environment variable is set");
